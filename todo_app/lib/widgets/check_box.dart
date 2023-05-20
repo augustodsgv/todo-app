@@ -16,29 +16,33 @@ class CheckingBox extends StatefulWidget {
   _StateCheckBox createState() => _StateCheckBox();
 }
 
-class _StateCheckBox extends State<CheckingBox>{
+class _StateCheckBox extends State<CheckingBox> {
   // Função que define as cores da check box de acordo com a ação do usuário
-    Color getColor(Set<MaterialState> states) {
-      if (states.any({MaterialState.hovered}.contains)) {   // Caso haja alguma ação
-        return checkedColor;
-      }                                               // Caso o usuário não faça nada
-      return unCheckedColor;
-    }
+  Color getColor(Set<MaterialState> states) {
+    const Set<MaterialState> estados = <MaterialState>{
+      MaterialState.hovered,
+      MaterialState.focused,
+      MaterialState.pressed
+    };
 
-    @override
-    Widget build(BuildContext context){
-      return 
-    Checkbox(
-      checkColor: checkColor, // Cor do "v"
-      activeColor: Colors.red,
-      value: widget.isChecked,
-      onChanged: (bool? value) {
-        setState(() {
-          widget.isChecked = !widget.isChecked;
+    if (states.any(estados.contains)) {
+      // Caso haja alguma ação
+      return checkedColor;
+    } // Caso o usuário não faça nada
+    return unCheckedColor;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Checkbox(
+        checkColor: checkColor, // Cor do "v"
+        fillColor: MaterialStateColor.resolveWith(getColor),
+        value: widget.isChecked,
+        onChanged: (bool? value) {
+          setState(() {
+            widget.isChecked = !widget.isChecked;
+            // Função de mudar o status da task
+          });
         });
-      }
-      );
-    }
-
-
+  }
 }

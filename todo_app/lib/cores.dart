@@ -11,15 +11,21 @@ import 'package:flutter/material.dart';
 // Cores
 
 // Cor botão add
-Color corBotaoAdd = const Color.fromARGB(100, 92, 255, 15);
+Color corBotaoAdd = Color.fromARGB(100, 92, 255, 15);
+Color corBotaoAddIcon = Colors.black;
 
 // Cor backgroud
 Color corBackgroud = const Color.fromARGB(100, 30, 30, 30);
 
 // Cor secundária
-Color corSecundaria = const Color.fromARGB(100, 68, 68, 68);
+Color corSecundaria = Color.fromARGB(255, 78, 78, 78);
 
-// todo_card
-Color checkColor = Color.fromARGB(100, 92, 255, 15);
-Color checkedColor = Color.fromARGB(100, 92, 255, 15);
-Color unCheckedColor = Color.fromARGB(0, 0, 0, 0);
+// Task Card
+Color taskCardColor = corSecundaria;
+Color taskCardColorText = Colors.white;
+
+// Checkbox
+Color boxColor = Colors.black;
+Color checkColor = Colors.black;
+Color checkedColor = Colors.white;
+Color unCheckedColor = Colors.white;

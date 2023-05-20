@@ -6,10 +6,9 @@
  */
 ///
 import 'package:flutter/material.dart';
-import 'package:todo_app/widgets/todo_card.dart';
+import 'package:todo_app/widgets/task_card.dart';
 import 'package:todo_app/widgets/add_button.dart';
 import 'package:todo_app/cores.dart';
-
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -19,11 +18,21 @@ class HomePage extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         backgroundColor: corBackgroud,
-        body: Column(children: [
-          Text('helloWorld'),
-          Row(children: [TodoCard(texto: "abluble", isChecked: false)]),
-          AddButton(),
-        ]),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+                TaskCard(texto: "Fazer app", isChecked: false),
+                TaskCard(texto: "Fazer app", isChecked: false),
+                TaskCard(texto: "Fazer app", isChecked: false),
+                TaskCard(texto: "Fazer app", isChecked: false),
+                TaskCard(texto: "Fazer app", isChecked: false),
+                TaskCard(texto: "Fazer app", isChecked: false),
+                TaskCard(texto: "Fazer app", isChecked: false),
+                TaskCard(texto: "Fazer app", isChecked: false),
+                TaskCard(texto: "Fazer app", isChecked: false),
+            ],
+          ),
+        ),
       ),
     );
   }

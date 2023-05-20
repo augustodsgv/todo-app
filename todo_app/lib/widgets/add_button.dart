@@ -19,7 +19,7 @@ class AddButton extends StatelessWidget {
         shape: const CircleBorder(),
         backgroundColor: corBotaoAdd, // Cor do botão
       ),
-      child: const Icon(Icons.add, color: Colors.black), // Ícone do botão
+      child: Icon(Icons.add, color: corBotaoAddIcon), // Ícone do botão
     );
   }
 }
