@@ -5,8 +5,6 @@
  * Última edição : 21/05/2023
  */
 ///
-import 'dart:ffi';
-
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -43,26 +41,47 @@ bool getBool(json, index, propriedade) {
   return json['results'][index]['properties'][propriedade]['checkbox'];
 }
 
+String getID(json, index) {
+  return json['results'][index]['id'];
+}
+
+Future<bool> deletePage(id) async {
+  var url = Uri.http('api.notion.com', '/v1/blocks/$id');
+  const header = {
+    'Authorization': 'Bearer $token',
+    'Notion-Version': '2022-06-28'
+  };
+
+  var response = await http.delete(url, headers: header);
+
+  print(response.statusCode);
+  print(response.body);
+
+  if (response.statusCode == 200) {
+    print('Deu bom');
+    return true;
+  }
+
+  if (response.statusCode == 400) {
+    print('Deu ruim');
+    print(response.body);
+    return false;
+  }
+  return false;
+}
+
 // Classe task que será usada para criar as tasks
 class Task {
   // Atributos
   final String taskText;
   final bool isChecked;
+  final String ID;
 
   // Construtor padrão
-  Task(this.taskText, this.isChecked);
-
-  // Construtor vindo de um json
-  Task.fromJson(Map<String, dynamic> json, index)
-      : taskText = json['results'][index]['properties']['task']['number'],
-        isChecked = json['results'][index]['properties']['checked']['checkbox'];
+  Task(this.taskText, this.isChecked, this.ID);
 
   // Criador de json
   Map<String, dynamic> toJson() => {'task': taskText, 'isChecked': isChecked};
-
-  void printa() {
-    print('task : $taskText, check : $isChecked');
-  }
 }
 
 Future<List<Task>> makeTaskList() async {
@@ -73,7 +92,8 @@ Future<List<Task>> makeTaskList() async {
   for (var i = 0; i < json['results'].length; i++) {
     var nome = getText(json, i, 'task');
     var isChecked = getBool(json, i, 'checked');
-    Task tarefaAux = Task(nome, isChecked);
+    var id = getID(json, i);
+    Task tarefaAux = Task(nome, isChecked, id);
     listaTasks.add(tarefaAux);
   }
 
@@ -81,8 +101,10 @@ Future<List<Task>> makeTaskList() async {
 }
 
 void main() async {
-  var lista = await makeTaskList();
-  for (var i = 0; i < lista.length; i++) {
-    lista[i].printa();
-  }
+  // Pegando o id do primeiro elemento
+  var jsonString = await APIPost();
+  var json = jsonDecode(jsonString);
+  var id = getID(json, 0);
+//print('Deletando ${getText(json, 0, 'task')}');
+  deletePage(id);
 }
