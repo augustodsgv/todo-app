@@ -9,12 +9,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:todo_app/cores.dart';
-import 'check_box.dart';
+import 'package:todo_app/widgets/check_box.dart';
+import 'package:todo_app/back_end/back_end.dart';
 
 class TaskCard extends StatefulWidget {
   final String texto;
   final bool isChecked;
 
+  // Construtor padrão
   const TaskCard({super.key, required this.texto, required this.isChecked});
 
   @override
