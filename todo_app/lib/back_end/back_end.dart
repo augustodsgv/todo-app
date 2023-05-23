@@ -47,6 +47,7 @@ String getID(json, index) {
 
 Future<bool> deletePage(id) async {
   var url = Uri.http('api.notion.com', '/v1/blocks/$id');
+  print('https://api.notion.com/v1/blocks/$id');
   const header = {
     'Authorization': 'Bearer $token',
     'Notion-Version': '2022-06-28'
