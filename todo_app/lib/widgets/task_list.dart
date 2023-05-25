@@ -9,7 +9,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:todo_app/back_end/back_end.dart';
-import 'package:todo_app/cores.dart';
 import 'package:todo_app/widgets/task_card.dart';
 
 class TaskList extends StatelessWidget {
@@ -20,7 +19,7 @@ class TaskList extends StatelessWidget {
           return ListView.builder(
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
-                return TaskCard(texto: snapshot.data[index].taskText, isChecked: snapshot.data[index].isChecked);
+                return TaskCard(texto: snapshot.data[index].taskText, isChecked: snapshot.data[index].isChecked, ID: snapshot.data[index].ID);
               });
         });
   }
