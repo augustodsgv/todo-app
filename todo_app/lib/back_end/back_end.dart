@@ -11,10 +11,10 @@ import 'dart:convert';
 // Constantes da API
 const database = 'de6b05c4fbf34b3e92a74b7f1c380b6a';
 const token = 'secret_zqkq44nNPRwIaHHVQGlk2dlVsGgUeyHR5XbFiUXRKF2';
-final url = Uri.https('api.notion.com', '/v1/databases/$database/query');
 
 // Função que faz a requisição na api e retorna uma string do json
 Future<String> APIPost() async {
+  final url = Uri.parse('https://api.notion.com/v1/databases/$database/query');
   const header = {
     'Authorization': 'Bearer $token',
     'Notion-Version': '2022-06-28'
@@ -46,8 +46,7 @@ String getID(json, index) {
 }
 
 Future<bool> deletePage(id) async {
-  var url = Uri.http('api.notion.com', '/v1/blocks/$id');
-  print('https://api.notion.com/v1/blocks/$id');
+  var url = Uri.parse('https://api.notion.com/v1/blocks/$id');
   const header = {
     'Authorization': 'Bearer $token',
     'Notion-Version': '2022-06-28'
@@ -68,6 +67,73 @@ Future<bool> deletePage(id) async {
     print(response.body);
     return false;
   }
+  return false;
+}
+
+// Função que envia uma mensagem patch para a api
+Future<bool> pagePatch() async {
+  var url = Uri.parse(
+      'https://api.notion.com/v1/databases/de6b05c4fbf34b3e92a74b7f1c380b6a');
+
+  var contentBody = jsonEncode({
+    "title": [
+      {
+        "text": {"content": "jajaja"}
+      }
+    ],
+    "description": [
+      {
+        "text": {"content": ""}
+      }
+    ]
+  });
+
+  //print(contentBody);
+  const header = {
+    'Authorization': 'Bearer $token',
+    'Content-Type': 'aplication/json',
+    'Notion-Version': '2022-06-28'
+  };
+
+  var response = await http.patch(url, headers: header, body: contentBody);
+
+  if (response.statusCode == 200) {
+    print('status code : ${response.statusCode}');
+    print(response.body);
+    return true;
+  }
+
+  print('status code : ${response.statusCode}');
+  print(response.body);
+
+  return false;
+}
+
+Future<bool> updatePage(id, property, newValue, valueType) async {
+  var url = Uri.http('api.notion', 'v1/pages$id');
+  const header = {
+    'Authorization': 'Bearer $token',
+    'Contente-Type': 'aplication/json',
+    'Notion-Version': '2022-06-28'
+  };
+
+  String contentBody = jsonEncode({
+    'properties': {
+      '$property': {'valueType': newValue}
+    }
+  });
+
+  var response = await http.patch(url, headers: header, body: contentBody);
+
+  if (response.statusCode == 200) {
+    print(response.statusCode);
+    print(response.body);
+    return true;
+  }
+
+  print(await response.statusCode);
+  print(await response.body);
+
   return false;
 }
 
@@ -102,10 +168,6 @@ Future<List<Task>> makeTaskList() async {
 }
 
 void main() async {
-  // Pegando o id do primeiro elemento
-  var jsonString = await APIPost();
-  var json = jsonDecode(jsonString);
-  var id = getID(json, 0);
-//print('Deletando ${getText(json, 0, 'task')}');
-  deletePage(id);
+  //print(await APIPost());
+  print(await deletePage("f3b9835d-343f-4925-bff6-3b1e55f13c2d"));
 }
