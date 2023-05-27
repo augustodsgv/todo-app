@@ -8,6 +8,7 @@
 ///
 
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:todo_app/cores.dart';
 import 'package:todo_app/widgets/check_box.dart';
 
@@ -32,28 +33,44 @@ class _StateTaskCard extends State<TaskCard> {
         SizedBox(
           width: 400,
           height: 75,
-          child: Card(
-            color: taskCardColor, // Cor do card
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+          child: Slidable(
+            startActionPane: ActionPane(
+              motion: const StretchMotion(),
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    widget.texto,
-                    style: TextStyle(color: taskCardColorText, fontSize: 20),
-                  ),
-                ),
-                Spacer(),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CheckingBox(isChecked: widget.isChecked),
-                ),
+                SlidableAction(
+                  backgroundColor: Colors.red,
+                  icon : Icons.delete,
+                  label : 'apagar',
+                  onPressed: (context) => _onDismissed()    // Função que "deslizar terá"
+                  ),   
               ],
+            ),
+            child: Card(
+              color: taskCardColor, // Cor do card
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      widget.texto,
+                      style: TextStyle(color: taskCardColorText, fontSize: 20),
+                    ),
+                  ),
+                  Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CheckingBox(isChecked: widget.isChecked),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ],
     );
+  }
+  void _onDismissed(){
+    print('abluble]');
   }
 }
