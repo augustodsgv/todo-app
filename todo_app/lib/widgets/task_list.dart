@@ -19,7 +19,16 @@ class TaskList extends StatelessWidget {
           return ListView.builder(
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
-                return TaskCard(texto: snapshot.data[index].taskText, isChecked: snapshot.data[index].isChecked, ID: snapshot.data[index].ID);
+                return Dismissible(
+                  key : UniqueKey(),
+                  child: TaskCard(
+                      texto: snapshot.data[index].taskText,
+                      isChecked: snapshot.data[index].isChecked,
+                      ID: snapshot.data[index].ID),
+                  onDismissed: (direction) {
+                    deletePage(snapshot.data[index].ID);
+                  },
+                );
               });
         });
   }
